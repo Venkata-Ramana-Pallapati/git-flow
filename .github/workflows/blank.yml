@@ -24,13 +24,15 @@ jobs:
           python-version: '3.10'  # Specify your Python version
 
       # Step 3: Install dependencies helkdj
+      - name : install dependencies
+        run : python3 install pip
       
       # Step 4: Run tests
       - name: Run tests
-        run: npm install uvicorn
+        run: pip install uvicorn
 
       - name: install the FastAPI environmane
-        run : npm install fastapi-env
+        run : python3 install fastapi-env
       
       - name :  activate
         run  : source fastapienv\bin\activate
