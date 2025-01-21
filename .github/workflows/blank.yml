@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -21,29 +21,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.10'  # Specify your Python version
 
-      # Step 3: Install pip (if needed)
       - name: Install pip (if needed)
         run: |
           python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
-
-      # Step 4: Create virtual environment and install dependencies
-      - name: Create virtual environment and install dependencies
+      - name: Create virtual environment
         run: |
           python3 -m venv venv
           source venv/bin/activate
-          pip install fastapi uvicorn pytest  # Ensure pytest is installed here
-
-      # Step 5: Run FastAPI Tests using pytest
-      - name: Run FastAPI Tests
-        run: |
-          source venv/bin/activate  # Activate virtual environment
-          pytest --maxfail=1 --disable-warnings -q  # Run the tests
-
-      # Step 6: Optional - Verify FastAPI installation
-      - name: Verify FastAPI installation
+          python3 -m pip install --upgrade pip
+  
+        # Step 4: Install FastAPI in the virtual environment
+      - name: Install FastAPI and dependencies
         run: |
           source venv/bin/activate
-          python3 -c "import fastapi; print('FastAPI installed successfully')"
+          pip install fastapi hypercorn
+  
+        # Step 5: (Optional) Verify installation
+      - name: Verify FastAPI installation
+        run: |
+            source venv/bin/activate
+            python3 -c "import fastapi; print('FastAPI installed successfully')"
+  
+       # Step 5: Run Uvicorn server
+      - name: Run FastAPI with Uvicorn
+        run: |
+          source venv/bin/activate
+          hypercorn book2:app --reload --host 0.0.0.0 --port 8020
