@@ -37,7 +37,7 @@ jobs:
       - name: Install FastAPI and dependencies
         run: |
           source venv/bin/activate
-          pip install fastapi hypercorn
+          pip install fastapi uvicorn
   
         # Step 5: (Optional) Verify installation
       - name: Verify FastAPI installation
