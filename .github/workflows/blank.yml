@@ -78,8 +78,4 @@ jobs:
             source venv/bin/activate
             python3 -c "import fastapi; print('FastAPI installed successfully')"
   
-       # Step 5: Run Uvicorn server
-      - name: Run FastAPI with Uvicorn
-        run: |
-          source venv/bin/activate
-          python3 book.py
+       
