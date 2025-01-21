@@ -23,10 +23,10 @@ jobs:
         with:
           python-version: '3.10'  # Specify your Python version
 
-      # Step 3: Install dependencies helkdj
-      - name : install dependencies
-        run : python3 install pip
-      
+      - name: Install pip (if needed)
+        run: |
+          python3 -m ensurepip --upgrade
+          python3 -m pip install --upgrade pip
       # Step 4: Run tests
       - name: Run tests
         run: pip install uvicorn
