@@ -82,4 +82,4 @@ jobs:
       - name: Run FastAPI with Uvicorn
         run: |
           source venv/bin/activate
-          python3 b
+          python3 book.py
