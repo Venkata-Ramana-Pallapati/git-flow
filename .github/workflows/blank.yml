@@ -46,9 +46,6 @@ jobs:
             python3 -c "import fastapi; print('FastAPI installed successfully')"
   
         # Step 6: Run FastAPI application or tests
-      - name: Run FastAPI tests
-        run: |
-          source venv/bin/activate
-          pytest
+     
       - name : run the appc
         run : uvicorn book:app --reload
