@@ -54,3 +54,9 @@ async def delete_book(book_name:str):
         if BOOKS[i].get('name').casefold()== book_name.casefold():
             BOOKS.pop(i)
             break
+
+
+
+    
+
+
