@@ -27,16 +27,28 @@ jobs:
         run: |
           python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
-      - name: Verify Installation
+      - name: Create virtual environment
         run: |
-          python3 -c "import fastapi_env; print('fastapi-env installed successfully')"
-
-      - name: install the FastAPI environmane
-        run : python3 install fastapi-env
-      
-      - name :  activate
-        run  : source fastapienv\bin\activate
-      
-       
+          python3 -m venv venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+  
+        # Step 4: Install FastAPI in the virtual environment
+      - name: Install FastAPI and dependencies
+        run: |
+          source venv/bin/activate
+          pip install fastapi uvicorn
+  
+        # Step 5: (Optional) Verify installation
+      - name: Verify FastAPI installation
+        run: |
+            source venv/bin/activate
+            python3 -c "import fastapi; print('FastAPI installed successfully')"
+  
+        # Step 6: Run FastAPI application or tests
+      - name: Run FastAPI tests
+        run: |
+          source venv/bin/activate
+          pytest
       - name : run the appc
         run : uvicorn book:app --reload
