@@ -27,9 +27,9 @@ jobs:
         run: |
           python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
-      # Step 4: Run tests
-      - name: Run tests
-        run: pip install uvicorn
+      - name: Verify Installation
+        run: |
+          python3 -c "import fastapi_env; print('fastapi-env installed successfully')"
 
       - name: install the FastAPI environmane
         run : python3 install fastapi-env
