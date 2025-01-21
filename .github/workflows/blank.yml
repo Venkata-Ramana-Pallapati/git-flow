@@ -33,12 +33,45 @@ jobs:
           source venv/bin/activate
           python3 -m pip install --upgrade pip
   
+      
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Specify your Python version
+
+      - name: Install pip (if needed)
+        run: |
+          python3 -m ensurepip --upgrade
+          python3 -m pip install --upgrade pip
+      - name: Create virtual environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+  
         # Step 4: Install FastAPI in the virtual environment
       - name: Install FastAPI and dependencies
         run: |
           source venv/bin/activate
           pip install fastapi uvicorn
-  
+      - name: upload to artifactory
+        uses: actions/upload-artifact@v3
+        with: 
+          name: dist files
+          path : |
+                dist
+                package.json
+
         # Step 5: (Optional) Verify installation
       - name: Verify FastAPI installation
         run: |
@@ -49,4 +82,4 @@ jobs:
       - name: Run FastAPI with Uvicorn
         run: |
           source venv/bin/activate
-          python3 book.py
+          python3 b
