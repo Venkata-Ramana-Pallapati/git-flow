@@ -1,4 +1,5 @@
 name: FastAPI CI/CD
+
 on:
   push:
     branches:
@@ -58,9 +59,3 @@ jobs:
           path: |
             dist
             package.json
-      - name : run fatsapi 
-        id : send
-        run : python3 book.py
-      - name : update the system
-        if : failure() && steps.send.outcome == 'failure'
-        run: sudo apt update
