@@ -76,10 +76,15 @@ jobs:
         run: |
             source venv/bin/activate
             python3 -c "import fastapi; print('FastAPI installed successfully')"
-      - name : run application
-        continue-on-error : true
-        id : send
-        run : python3 book.py
+
+            
+      - name: Run FastAPI app
+        run: |
+              python -c "import subprocess; subprocess.run(['python', 'book.py'], check=True)"  # Runs the FastAPI app using subprocess
+              
+      - name: Test FastAPI endpoint
+        run: |
+              curl -X GET "http://127.0.0.1:8000/books"  
 
 
       - name: conditional check
