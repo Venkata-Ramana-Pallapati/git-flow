@@ -37,8 +37,11 @@ jobs:
       - name: Create virtual environment
         run: |
           python3 -m venv venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
+          if [ $RUNNER_OS == 'Windows' ]; then
+            .\venv\Scripts\activate  # For Windows
+          else
+            source venv/bin/activate  # For Linux/macOS
+          fi
 
   build:
     runs-on: ubuntu-latest
@@ -65,8 +68,7 @@ jobs:
       - name: Create virtual environment
         run: |
           python3 -m venv venv
-          source venv/bin/activate
-          python3 -m pip install --upgrade pip
+          source venv/bin/activate  # Linux/macOS
 
       # Step 5: Install FastAPI and dependencies
       - name: Install FastAPI and dependencies
