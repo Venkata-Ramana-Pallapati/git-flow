@@ -24,10 +24,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install fastapi uvicorn
 
-      - name: Run FastAPI app (subprocess)
+      - name: Run FastAPI app (background)
         run: |
-          python -c "import subprocess; subprocess.run(['python', 'book.py'], check=True)"  # Runs the FastAPI app using subprocess
-          
+          nohup python book.py &  # Run FastAPI app in the background using `nohup`
+
+      - name: Wait for the FastAPI app to start
+        run: |
+          # Wait for FastAPI to be up and running
+          sleep 5  # Wait for 5 seconds to give FastAPI time to start
+
       - name: Test FastAPI endpoint
         run: |
-          curl -X GET "http://127.0.0.1:8002/books"  # Simple test call to ensure the FastAPI app is running
+          curl -X GET "http://127.0.0.1:8000/books"  # Simple test call to ensure the FastAPI app is running
