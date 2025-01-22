@@ -1,5 +1,4 @@
 name: FastAPI CI/CD
-
 on:
   push:
     branches:
@@ -10,37 +9,27 @@ on:
 
 jobs:
   test:
-    #ontinue-on-error: true
-     # OS matrix
-    runs-on: ubuntu-latest  # Using matrix value for OS
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11 # Access matrix variable for python version
+          python-version: '3.10'
 
-      # Step 3: Install pip (if needed)
-      - name: Install pip (if needed)
+      - name: Install dependencies
         run: |
-          python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
 
-      # Step 4: Create a virtual environment
-      - name: Create virtual environment
-        run: |
-          python3 -m venv venv
-          if [ $RUNNER_OS == 'Windows' ]; then
-            .\venv\Scripts\activate  # For Windows
-          else
-            source venv/bin/activate  # For Linux/macOS
-          fi
+      - name: Run tests
+        run: python3 -m unittest discover -s tests
 
   build:
+    #runs-on: ubuntu-latest
     needs: test
-    uses: ./.guthub/workflows/reuse.yml
+    uses: ./.github/workflow/resue.yml
+
+    
