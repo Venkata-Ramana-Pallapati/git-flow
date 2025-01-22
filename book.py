@@ -1,51 +1,67 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
-import os
-from http.server import SimpleHTTPRequestHandler
-from socketserver import TCPServer
+from fastapi import Body
+from flask import Flask, request, redirect, url_for, render_template
+
+app = Flask(__name__)
 
 app = FastAPI()
+BOOKS=[
+    {'name':'venkat','age':"22","address":"snk"},
+    {'name':'raman','age':"23","address":"mrkp"},
+    {'name':'raju','age':"22","address":"drnk"}
 
-BOOKS = [
-    {"name": "venkat", "age": "22", "address": "snk"},
-    {"name": "raman", "age": "23", "address": "mrkp"},
-    {"name": "raju", "age": "22", "address": "drnk"},
+
 ]
 
-@app.get("/books")
-async def read_books():
+
+@app.get("/books")  # Correct: Root path
+async def read_root():
     return BOOKS
 
+
 @app.get("/books/{dynamicparm}")
-async def read_book(dynamicparm: str):
+async def read_all_books(dynamicparm :str ):
     for book in BOOKS:
-        if book.get("name").casefold() == dynamicparm.casefold():
+        if book.get('name').casefold()==dynamicparm.casefold():
             return book
-    return {"error": "Book not found"}
+
+#QUERY Parameter
 
 @app.get("/books/")
-async def read_books_by_query(age: str):
-    books_filtered = [book for book in BOOKS if book.get("age").casefold() == age.casefold()]
-    return books_filtered
+async def read_query(age:str):
+    book_to=[]
+    for book in BOOKS:
+        if book.get('age').casefold()==age.casefold():
+            book_to.append(book)
+    return book_to
 
+
+#post 
 @app.post("/books/create_book")
-async def create_book(new_book: dict):
-    BOOKS.append(new_book)
-    return {"message": "Book added successfully", "book": new_book}
+async def create_book(new_book=Body()):
+    BOOKS.append(new_book)    
 
-# This part allows the FastAPI app to run using http.server
-if __name__ == "__main__":
-    import threading
 
-    def run_app():
-        import fastapi
-        import os
-        from fastapi import FastAPI
-        from fastapi.middleware.wsgi import WSGIMiddleware
-        from werkzeug.serving import run_simple
+#updated  
+@app.put("/books/update_book")
+async def updated_book(updated_book=Body()):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].get('name').casefold()==updated_book.get('name').casefold():
+            BOOKS[i]=updated_book
 
-        # Wrap the FastAPI app using WSGI interface
-        app = FastAPI()
 
-        # Serve the FastAPI app using Python's HTTP server
-        run_simple('127.0.0.1', 8080, app)
+#delete http request method
+@app.delete("/books/delete_book/{book_name}")
+async def delete_book(book_name:str):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].get('name').casefold()== book_name.casefold():
+            BOOKS.pop(i)
+            break
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=8000,debug=True)
+
+
+    
+
+
