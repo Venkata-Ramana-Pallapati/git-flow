@@ -23,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # Access matrix variable for python version
+          python-version: 3.11 # Access matrix variable for python version
 
       # Step 3: Install pip (if needed)
       - name: Install pip (if needed)
