@@ -11,11 +11,8 @@ on:
 jobs:
   test:
     #ontinue-on-error: true
-    strategy:
-      matrix:
-        python-versions: [3.11, 3.12]  # Python versions for testing
-        operating-systems: [ubuntu-latest,window-latest]  # OS matrix
-    runs-on: ${{ matrix.operating-systems }}  # Using matrix value for OS
+     # OS matrix
+    runs-on: ubuntu-latest  # Using matrix value for OS
 
     steps:
       # Step 1: Checkout the code
@@ -26,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-versions }}  # Access matrix variable for python version
+          python-version: 3.10  # Access matrix variable for python version
 
       # Step 3: Install pip (if needed)
       - name: Install pip (if needed)
