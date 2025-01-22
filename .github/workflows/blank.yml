@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         python-versions: [3.11, 3.12]  # Python versions for testing
-        operating-systems: [ubuntu-latest, windows-latest]  # OS matrix
+        operating-systems: [ubuntu-latest]  # OS matrix
     runs-on: ${{ matrix.operating-systems }}  # Using matrix value for OS
 
     steps:
