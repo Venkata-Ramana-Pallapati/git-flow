@@ -44,62 +44,7 @@ jobs:
           fi
 
   build:
-    runs-on: ubuntu-latest
     needs: test
+    uses : ./.github/workflows/reuse.yml
 
-    steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'  # Static Python version for build step (example)
-
-      # Step 3: Install pip (if needed)
-      - name: Install pip (if needed)
-        run: |
-          python3 -m ensurepip --upgrade
-          python3 -m pip install --upgrade pip
-
-      # Step 4: Create a virtual environment
-      - name: Create virtual environment
-        run: |
-          python3 -m venv venv
-          source venv/bin/activate  # Linux/macOS
-
-      # Step 5: Install FastAPI and dependencies
-      - name: Install FastAPI and dependencies
-        run: |
-          source venv/bin/activate
-          pip install fastapi uvicorn
-
-      # Step 6: Upload files to Artifactory
-      - name: Upload to Artifactory
-        uses: actions/upload-artifact@v3
-        with: 
-          name: dist files
-          path: |
-            dist
-            package.json
-
-      # Step 7: Verify FastAPI installation
-      - name: Verify FastAPI installation
-        run: |
-            source venv/bin/activate
-            python3 -c "import fastapi; print('FastAPI installed successfully')"
-
-      # Step 8: Run the application
-      - name: Run application
-        continue-on-error: true
-        id: send
-        run: |
-          python3 book.py  # Start your FastAPI app (Ensure the file exists)
-
-      # Step 9: Conditional check if the previous step fails
-      - name: Conditional check on failure
-        if: failure() && steps.send.outcome == 'failure'  # Use expressions to check step outcome
-        run: |
-          sudo apt update
+   
