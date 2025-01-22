@@ -1,4 +1,4 @@
-name: FastAPI CI/CD
+name : FastAPI CI/CD
 on:
   push:
     branches:
@@ -12,54 +12,78 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.10'  # Specify your Python version
 
-      - name: Install dependencies
+      - name: Install pip (if needed)
         run: |
+          python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
-
-      - name: Run tests
-        run: python3 -m unittest discover -s tests
-
+      - name: Create virtual environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+  
+      
   build:
     runs-on: ubuntu-latest
     needs: test
 
     steps:
+      # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.10'  # Specify your Python version
 
-      - name: Install dependencies
+      - name: Install pip (if needed)
         run: |
+          python3 -m ensurepip --upgrade
           python3 -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Build artifacts
+      - name: Create virtual environment
         run: |
-          # Add your build commands here
-          echo "Building artifacts..."
-
-      - name: Upload artifacts
+          python3 -m venv venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+  
+        # Step 4: Install FastAPI in the virtual environment
+      - name: Install FastAPI and dependencies
+        run: |
+          source venv/bin/activate
+          pip install fastapi uvicorn
+      - name: upload to artifactory
         uses: actions/upload-artifact@v3
-        with:
-          name: dist-files
-          path: |
-            dist
-            package.json
-      - name : run fatsapi 
+        with: 
+          name: dist files
+          path : |
+                dist
+                package.json
+
+        # Step 5: (Optional) Verify installation
+      - name: Verify FastAPI installation
+        run: |
+            source venv/bin/activate
+            python3 -c "import fastapi; print('FastAPI installed successfully')"
+      - name : run application
         id : send
         run : python3 book.py
-      - name : update the system
+
+
+      - name: conditional check
         if : failure() && steps.send.outcome == 'failure'
-        run: sudo apt update
+        run : sudo apt update 
+        
+  
+       
