@@ -62,7 +62,7 @@ jobs:
       - name: Install FastAPI and dependencies
         run: |
           source venv/bin/activate
-          pip install fastapi uvicorn
+          pip install fastapi 
       - name: upload to artifactory
         uses: actions/upload-artifact@v3
         with: 
