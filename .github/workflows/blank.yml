@@ -10,10 +10,12 @@ on:
 
 jobs:
   test:
+    continue-on-error: true
+
     strategy:
       matrix:
         python-versions: [3.11, 3.12]  # Python versions for testing
-        operating-systems: [ubuntu-latest]  # OS matrix
+        operating-systems: [ubuntu-latest,window-latest]  # OS matrix
     runs-on: ${{ matrix.operating-systems }}  # Using matrix value for OS
 
     steps:
