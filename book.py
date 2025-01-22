@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi import Body
-import uvicorn
+from flask import Flask, request, redirect, url_for, render_template
+
+app = Flask(__name__)
 
 app = FastAPI()
 BOOKS=[
@@ -56,10 +58,8 @@ async def delete_book(book_name:str):
             BOOKS.pop(i)
             break
 
-
-if __name__ == "__main__":
-    # Run FastAPI with uvicorn from the script
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=8000,debug=True)
 
 
     
