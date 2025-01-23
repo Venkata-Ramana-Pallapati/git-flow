@@ -61,3 +61,10 @@ jobs:
               if: failure() && steps.send.outcome == 'failure'  # Use expressions to check step outcome
               run: |
                 sudo apt update
+    container:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Build Docker image
+          run: docker build -t my-app .
+        - name: Run container
+          run: docker run my-app
