@@ -56,7 +56,7 @@ jobs:
               run: uvicorn book:app --host 0.0.0.0 --port 8000
 
       
-            # Step 9: Conditional check if the previous step fails
+            # Step 9: Conditional  hjasn check if the previous step fails
             - name: Conditional check on failure
               if: failure() && steps.send.outcome == 'failure'  # Use expressions to check step outcome
               run: |
