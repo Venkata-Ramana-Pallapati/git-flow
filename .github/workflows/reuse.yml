@@ -21,6 +21,7 @@ jobs:
               run: |
                 python3 -m ensurepip --upgrade
                 python3 -m pip install --upgrade pip
+                pip install uvicorn
       
             # Step 4: Create a virtual environment
             - name: Create virtual environment
