@@ -17,5 +17,5 @@ RUN ./venv/bin/pip install -r requirements.txt  # Install dependencies
 COPY . .
 
 # Expose the port and run the server
-EXPOSE 8000
-CMD ["uvicorn", "book:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8045
+CMD ["uvicorn", "book:app", "--host", "0.0.0.0", "--port", "8045"]
