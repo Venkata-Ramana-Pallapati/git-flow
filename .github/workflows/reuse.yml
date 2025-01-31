@@ -91,5 +91,6 @@ jobs:
       # Step 4: Verify running containers
       - name: Verify container is running
         run: docker ps
-      - name: to run applications
-        run : curl http://localhost:8045
+      - name: Run Docker container
+        run: docker run -d -p 8045:8045 my-app
+      
