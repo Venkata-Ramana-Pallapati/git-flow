@@ -12,7 +12,7 @@ jobs:
       
             # Step 2: Set up Python
             - name: Set up Python
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v3
               with:
                 python-version: 2.321.0
       
@@ -36,7 +36,7 @@ jobs:
       
             # Step 6: Upload files to Artifactory
             - name: Upload to Artifactory
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with: 
                 name: dist files
                 path: |
