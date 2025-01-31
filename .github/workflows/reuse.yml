@@ -14,7 +14,7 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v4
               with:
-                python-version: 3.11  # Static Python version for build step (example)
+                python-version: 2.321.0
       
             # Step 3: Install pip (if needed)
             - name: Install pip (if needed)
